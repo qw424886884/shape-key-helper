@@ -3,7 +3,7 @@
 Shape Key Helper 是一个 Blender 形态键辅助扩展，用于左右镜像、对称修复，
 以及在保留现有形态键的情况下应用修改器。
 
-![Shape Key Helper 形态键对称修复前后对比](media/shape-key-helper-case-comparison-v1.png)
+![Shape Key Helper 形态键对称修复前后对比](media/shape-key-helper-feature-1920x1080.png)
 
 上图展示了单侧被误调的面部形态键沿网格 X 轴完成对称修复；原模型与 UV 保持不变。
 

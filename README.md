@@ -5,7 +5,7 @@
 Shape Key Helper is a Blender extension for mirroring shape keys, repairing
 symmetry, and applying modifiers without losing existing shape keys.
 
-![Shape Key Helper symmetry repair comparison](media/shape-key-helper-case-comparison-v1.png)
+![Shape Key Helper symmetry repair comparison](media/shape-key-helper-feature-1920x1080.png)
 
 The comparison above shows an asymmetric facial shape key repaired across the
 mesh X axis. The original mesh and its UVs stay intact.
