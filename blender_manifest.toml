@@ -27,5 +27,6 @@ paths = [
   "README_zh_CN.md",
   "CHANGELOG.md",
   "SECURITY.md",
+  "media/shape-key-helper-case-comparison-v1.png",
   "media/shape-key-helper-zh-cn.png"
 ]
