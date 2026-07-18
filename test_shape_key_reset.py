@@ -4,7 +4,8 @@ import types
 from pathlib import Path
 
 
-PLUGIN_PATH = Path(__file__).with_name("one_click_shape_key_mirror_master.py")
+PLUGIN_ROOT = Path(__file__).parent
+PACKAGE_NAME = "shape_key_helper_test"
 
 
 class Coord:
@@ -182,8 +183,16 @@ def install_fake_blender_modules():
 
 def load_plugin():
     install_fake_blender_modules()
-    spec = importlib.util.spec_from_file_location("one_click_shape_key_mirror_master", PLUGIN_PATH)
+    for module_name in tuple(sys.modules):
+        if module_name == PACKAGE_NAME or module_name.startswith(f"{PACKAGE_NAME}."):
+            del sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        PACKAGE_NAME,
+        PLUGIN_ROOT / "__init__.py",
+        submodule_search_locations=[str(PLUGIN_ROOT)],
+    )
     module = importlib.util.module_from_spec(spec)
+    sys.modules[PACKAGE_NAME] = module
     spec.loader.exec_module(module)
     return module
 
@@ -388,7 +397,7 @@ def test_visible_labels_do_not_append_source_language():
     plugin = load_plugin()
 
     assert plugin.bl_info["name"] == "Shape Key Helper"
-    assert plugin.bl_info["version"] == (1, 14, 1)
+    assert plugin.bl_info["version"] == (1, 14, 2)
     assert plugin.bl_info["blender"] == (5, 1, 0)
     assert plugin._ui_label("Auto Mirror", language="zh_HANS") == "自动镜像"
     assert plugin._ui_label("Batch Mirror", language="zh_HANS") == "批量镜像"

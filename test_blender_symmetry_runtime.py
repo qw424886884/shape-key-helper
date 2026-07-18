@@ -1,17 +1,29 @@
 import importlib.util
 import json
 import os
+import sys
 from pathlib import Path
 
 import bpy
 
 
-PLUGIN_PATH = Path(os.environ.get("PLUGIN_PATH_OVERRIDE") or Path(__file__).with_name("one_click_shape_key_mirror_master.py"))
+PLUGIN_ROOT = Path(os.environ.get("PLUGIN_PATH_OVERRIDE") or Path(__file__).parent)
+if PLUGIN_ROOT.is_file():
+    PLUGIN_ROOT = PLUGIN_ROOT.parent
+PACKAGE_NAME = "shape_key_helper_runtime_test"
 
 
 def load_plugin():
-    spec = importlib.util.spec_from_file_location("one_click_shape_key_mirror_master", PLUGIN_PATH)
+    for module_name in tuple(sys.modules):
+        if module_name == PACKAGE_NAME or module_name.startswith(f"{PACKAGE_NAME}."):
+            del sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        PACKAGE_NAME,
+        PLUGIN_ROOT / "__init__.py",
+        submodule_search_locations=[str(PLUGIN_ROOT)],
+    )
     module = importlib.util.module_from_spec(spec)
+    sys.modules[PACKAGE_NAME] = module
     spec.loader.exec_module(module)
     return module
 
@@ -183,12 +195,12 @@ def main():
         rollback_key.data[0].co.z += 0.2
         rollback_obj.modifiers.new("RollbackSolidify", "SOLIDIFY")
         rollback_mesh = rollback_obj.data
-        original_restore_animation = module._restore_shape_key_animation
+        original_restore_animation = module.modifier_tools._restore_shape_key_animation
 
         def force_restore_failure(*_args, **_kwargs):
             raise RuntimeError("forced rollback test")
 
-        module._restore_shape_key_animation = force_restore_failure
+        module.modifier_tools._restore_shape_key_animation = force_restore_failure
         try:
             try:
                 module.apply_modifier_keep_shape_keys(bpy.context, rollback_obj, "RollbackSolidify")
@@ -197,7 +209,7 @@ def main():
             else:
                 raise AssertionError("Expected modifier rebuild rollback")
         finally:
-            module._restore_shape_key_animation = original_restore_animation
+            module.modifier_tools._restore_shape_key_animation = original_restore_animation
 
         assert rollback_obj.data == rollback_mesh
         assert rollback_obj.modifiers.get("RollbackSolidify") is not None

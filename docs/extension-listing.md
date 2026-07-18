@@ -5,7 +5,7 @@
 - Name: Shape Key Helper
 - Extension ID: `shape_key_helper`
 - Repository: `qw424886884/shape-key-helper`
-- Version: `1.14.1`
+- Version: `1.14.2`
 - Minimum Blender version: `5.1.0`
 - License: GPL-3.0-or-later
 

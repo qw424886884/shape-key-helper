@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "shape_key_helper"
-version = "1.14.1"
+version = "1.14.2"
 name = "Shape Key Helper"
 tagline = "Mirror and repair shape keys without busywork"
 maintainer = "Fengjishi Studio"
@@ -21,12 +21,14 @@ copyright = [
 [build]
 paths = [
   "__init__.py",
-  "one_click_shape_key_mirror_master.py",
-  "LICENSE",
-  "README.md",
-  "README_zh_CN.md",
-  "CHANGELOG.md",
-  "SECURITY.md",
-  "media/shape-key-helper-case-comparison-v1.png",
-  "media/shape-key-helper-zh-cn.png"
+  "arkit_tools.py",
+  "constants.py",
+  "i18n.py",
+  "modifier_tools.py",
+  "operators.py",
+  "registration.py",
+  "shape_key_core.py",
+  "ui.py",
+  "vrm_tools.py",
+  "LICENSE"
 ]

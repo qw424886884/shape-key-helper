@@ -2,6 +2,13 @@
 
 All notable changes to Shape Key Helper are documented here.
 
+## [1.14.2] - 2026-07-18
+
+- Reorganized the extension into focused modules for core shape key operations,
+  modifier handling, ARKit, VRM, operators, UI, translations, and registration
+- Reduced the release package to runtime files and the required license
+- Switched release packaging to Blender's official extension build command
+
 ## [1.14.1] - 2026-07-17
 
 - Renamed the public extension to Shape Key Helper
