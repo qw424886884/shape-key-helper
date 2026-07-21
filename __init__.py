@@ -5,8 +5,8 @@
 bl_info = {
     "name": "Shape Key Helper",
     "author": "Fengjishi Studio / 风纪石",
-    "version": (1, 14, 2),
-    "blender": (5, 1, 0),
+    "version": (1, 14, 3),
+    "blender": (4, 2, 0),
     "location": "Object Data Properties > Shape Keys",
     "description": "Mirror and repair shape keys, fix mesh symmetry, and apply modifiers without losing shape keys.",
     "category": "Object",

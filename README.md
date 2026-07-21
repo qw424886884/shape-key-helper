@@ -33,7 +33,9 @@ with English source labels and Simplified Chinese translations.
 
 ## Requirements
 
-- Blender 5.1 or newer
+- Blender 4.2 LTS or newer
+- Tested with Blender 4.2.9, 4.3.2, 4.4.3, 4.5.12 LTS, 5.0.1, 5.1.2,
+  and 5.2.0 LTS
 - A mesh object for symmetry and modifier tools
 - Existing shape keys for mirror, reset, and active-key repair tools
 

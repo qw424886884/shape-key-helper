@@ -68,6 +68,8 @@ def create_quad_object(name):
 def main():
     module = load_plugin()
     module.register()
+    module.unregister()
+    module.register()
     try:
         assert callable(getattr(bpy.ops.shape_key_mirror, "repair_mesh_symmetry"))
         assert callable(getattr(bpy.ops.shape_key_mirror, "repair_active_self_symmetry"))

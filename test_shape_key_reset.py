@@ -397,8 +397,8 @@ def test_visible_labels_do_not_append_source_language():
     plugin = load_plugin()
 
     assert plugin.bl_info["name"] == "Shape Key Helper"
-    assert plugin.bl_info["version"] == (1, 14, 2)
-    assert plugin.bl_info["blender"] == (5, 1, 0)
+    assert plugin.bl_info["version"] == (1, 14, 3)
+    assert plugin.bl_info["blender"] == (4, 2, 0)
     assert plugin._ui_label("Auto Mirror", language="zh_HANS") == "自动镜像"
     assert plugin._ui_label("Batch Mirror", language="zh_HANS") == "批量镜像"
     assert plugin._ui_label("Auto Mirror", language="en_US") == "Auto Mirror"

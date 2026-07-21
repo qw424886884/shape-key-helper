@@ -2,6 +2,13 @@
 
 All notable changes to Shape Key Helper are documented here.
 
+## [1.14.3] - 2026-07-21
+
+- Expanded the declared minimum version to Blender 4.2 LTS
+- Verified the complete runtime regression suite in Blender 4.2.9, 4.3.2,
+  4.4.3, 4.5.12 LTS, 5.0.1, 5.1.2, and 5.2.0 LTS without version-specific
+  code paths
+
 ## [1.14.2] - 2026-07-18
 
 - Reorganized the extension into focused modules for core shape key operations,
