@@ -41,6 +41,11 @@ with English source labels and Simplified Chinese translations.
 
 ## Installation
 
+Install Shape Key Helper from its [official Blender Extensions page](https://extensions.blender.org/add-ons/shape-key-helper/)
+or search for `Shape Key Helper` in Blender's Get Extensions view.
+
+To install a downloaded release ZIP manually:
+
 1. Download the release ZIP.
 2. Open Blender Preferences > Get Extensions.
 3. Open the menu and choose Install from Disk.
@@ -69,6 +74,15 @@ modifier with this tool.
 
 The extension does not request network, file, clipboard, camera, or microphone
 permissions.
+
+## Maintainer and Open-source Direction
+
+- **Maintainer:** [Feng Ji Shi](https://github.com/qw424886884)
+- **Related project:** [Rig Bridge](https://github.com/qw424886884/rig-bridge)
+
+Feng Ji Shi builds practical open-source Blender tools for rigging, animation
+retargeting, shape keys, and production workflows. Shape Key Helper and Rig
+Bridge are the first two maintained projects in this direction.
 
 ## License
 

@@ -33,6 +33,11 @@ Shape Key Helper 是一个 Blender 形态键辅助扩展，用于左右镜像、
 
 ## 安装
 
+可以从 [Blender Extensions 官方页面](https://extensions.blender.org/add-ons/shape-key-helper/)
+安装 Shape Key Helper，也可以在 Blender 的“获取扩展”中搜索 `Shape Key Helper`。
+
+如需手动安装发布包：
+
 1. 下载发布页中的扩展 ZIP。
 2. 打开 Blender 偏好设置 > 获取扩展。
 3. 打开右上角菜单，选择“从磁盘安装”。
@@ -56,6 +61,15 @@ Shape Key Helper 是一个 Blender 形态键辅助扩展，用于左右镜像、
 ## 隐私与权限
 
 插件不申请网络、文件、剪贴板、摄像头或麦克风权限。
+
+## 维护者与开源方向
+
+- **维护者：** [Feng Ji Shi](https://github.com/qw424886884)
+- **相关项目：** [Rig Bridge](https://github.com/qw424886884/rig-bridge)
+
+Feng Ji Shi 专注于解决绑定、动作重映射、形态键和三维制作流程中的真实问题，
+持续维护实用的 Blender 开源工具。Shape Key Helper 与 Rig Bridge 是这条方向上的
+前两款公开项目。
 
 ## 许可证
 
