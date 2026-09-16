@@ -67,9 +67,21 @@ Shape Key Helper 是一个 Blender 形态键辅助扩展，用于左右镜像、
 - **维护者：** [Feng Ji Shi](https://github.com/qw424886884)
 - **相关项目：** [Rig Bridge](https://github.com/qw424886884/rig-bridge)
 
-Feng Ji Shi 专注于解决绑定、动作重映射、形态键和三维制作流程中的真实问题，
-持续维护实用的 Blender 开源工具。Shape Key Helper 与 Rig Bridge 是这条方向上的
-前两款公开项目。
+我是一名以三维制作为业的自由职业者，不是职业软件工程师。过去学过一些代码，
+也一直想把日常制作中遇到的问题做成工具。经过数月高强度使用 Codex，我把这些
+实践经验转化成了 Rig Bridge 和 Shape Key Helper 两款开源 Blender 扩展。
+
+Codex 帮助我把三维经验落实为代码；测试、审核和发布仍由我负责。
+我希望继续维护这两款工具，并把经过实际验证的 Blender 工作方法分享给其他创作者。
+
+### 公开发布状态｜2026 年 9 月 16 日
+
+- 当前公开版本：**1.14.3**
+- [Blender Extensions](https://extensions.blender.org/add-ons/shape-key-helper/) 累计下载：**544 次**
+- [GitHub](https://github.com/qw424886884/shape-key-helper/releases) 公开发布：**3 个版本**
+
+下载数据是上述日期读取的累计次数，不代表月下载量、独立用户数或活跃用户数。
+最新数字请查看所链接的平台页面。
 
 ## 许可证
 
