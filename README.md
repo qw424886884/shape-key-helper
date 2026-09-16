@@ -80,9 +80,23 @@ permissions.
 - **Maintainer:** [Feng Ji Shi](https://github.com/qw424886884)
 - **Related project:** [Rig Bridge](https://github.com/qw424886884/rig-bridge)
 
-Feng Ji Shi builds practical open-source Blender tools for rigging, animation
-retargeting, shape keys, and production workflows. Shape Key Helper and Rig
-Bridge are the first two maintained projects in this direction.
+I make my living as a 3D freelancer, not a professional software engineer.
+I had studied some code and wanted for years to build tools for problems I
+faced in daily production. After months of intensive Codex use, I turned that
+experience into two open-source Blender extensions: Rig Bridge and Shape Key Helper.
+
+Codex helps me translate practical 3D knowledge into code; I remain responsible
+for testing, review, and releases. I want to keep maintaining these tools and
+share Blender workflows that other artists can use in real work.
+
+### Public release snapshot — 16 September 2026
+
+- Current public release: **1.14.3**
+- **544 cumulative downloads** on [Blender Extensions](https://extensions.blender.org/add-ons/shape-key-helper/)
+- **3 public releases** on [GitHub](https://github.com/qw424886884/shape-key-helper/releases)
+
+These are cumulative download counts observed on the date above, not monthly
+downloads, unique users, or active users. See the linked pages for current figures.
 
 ## License
 
