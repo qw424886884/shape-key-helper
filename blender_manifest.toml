@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "shape_key_helper"
-version = "1.14.3"
+version = "1.14.4"
 name = "Shape Key Helper"
 tagline = "Mirror and repair shape keys without busywork"
 maintainer = "Fengjishi Studio"

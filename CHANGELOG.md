@@ -2,6 +2,15 @@
 
 All notable changes to Shape Key Helper are documented here.
 
+## [1.14.4] - 2026-10-04
+
+- Fixed loss of shape-key multi-selection and edit-lock states when using
+  Apply Modifier Keep Shape Keys, preserving each property where supported
+- Passed runtime regression tests on Blender 4.2.9, 4.3.2, 4.4.3, 4.5.12 LTS,
+  5.0.1, 5.1.2, and 5.2.2 LTS
+- The separately reported mouse drag/reorder issue has not yet been reproduced
+  and is not claimed as fixed in this release
+
 ## [1.14.3] - 2026-07-21
 
 - Expanded the declared minimum version to Blender 4.2 LTS

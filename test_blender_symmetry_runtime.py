@@ -126,6 +126,13 @@ def main():
         child_key.data[2].co.z += 0.6
         child_key.relative_key = parent_key
         mod_obj.active_shape_key_index = 5
+        ui_state = {}
+        for key in mod_obj.data.shape_keys.key_blocks:
+            for attr in ("select", "lock_shape"):
+                if hasattr(key, attr):
+                    value = key.name in {"Raise", "Child"}
+                    setattr(key, attr, value)
+                    ui_state[(key.name, attr)] = value
 
         raise_key.keyframe_insert(data_path="value", frame=1)
         original_action = mod_obj.data.shape_keys.animation_data.action
@@ -165,6 +172,8 @@ def main():
         assert key_blocks["Child"].relative_key == key_blocks["Parent"]
         assert max_delta(key_blocks["Child"], key_blocks["Parent"]) > 0.35
         assert mod_obj.active_shape_key_index == 5
+        for (name, attr), value in ui_state.items():
+            assert getattr(key_blocks[name], attr) == value, (name, attr)
 
         new_animation_data = mod_obj.data.shape_keys.animation_data
         assert new_animation_data.action == original_action
@@ -230,6 +239,7 @@ def main():
                     "modifier_drivers": len(new_animation_data.drivers),
                     "absolute_shape_keys": len(absolute_blocks),
                     "rollback_preserved": rollback_obj.data == rollback_mesh,
+                    "shape_key_ui_states_preserved": len(ui_state),
                 },
                 ensure_ascii=False,
             ),

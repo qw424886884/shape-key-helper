@@ -43,6 +43,8 @@ def _shape_key_metadata(key_block):
         "name": key_block.name,
         "value": _safe_shape_key_attr(key_block, "value", 0.0),
         "mute": _safe_shape_key_attr(key_block, "mute", False),
+        "select": _safe_shape_key_attr(key_block, "select"),
+        "lock_shape": _safe_shape_key_attr(key_block, "lock_shape"),
         "slider_min": _safe_shape_key_attr(key_block, "slider_min", 0.0),
         "slider_max": _safe_shape_key_attr(key_block, "slider_max", 1.0),
         "vertex_group": _safe_shape_key_attr(key_block, "vertex_group", ""),
@@ -65,6 +67,10 @@ def _restore_shape_key_metadata(key_block, metadata, restore_value=True):
         except Exception:
             pass
     _restore_id_properties(key_block, metadata.get("id_properties", {}))
+    # These UI states are not available in every supported Blender version.
+    for attr_name in ("select", "lock_shape"):
+        if metadata.get(attr_name) is not None and hasattr(key_block, attr_name):
+            setattr(key_block, attr_name, metadata[attr_name])
 
 
 def _set_shape_key_chain_active(key_blocks, active_key=None):

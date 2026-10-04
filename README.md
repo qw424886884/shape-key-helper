@@ -33,9 +33,13 @@ with English source labels and Simplified Chinese translations.
 
 ## Requirements
 
+Version 1.14.4: applying a modifier now preserves shape-key selection and edit
+locks where supported. The reported mouse-drag issue is not yet reproduced
+and is not claimed as fixed.
+
 - Blender 4.2 LTS or newer
 - Tested with Blender 4.2.9, 4.3.2, 4.4.3, 4.5.12 LTS, 5.0.1, 5.1.2,
-  and 5.2.0 LTS
+  and 5.2.2 LTS
 - A mesh object for symmetry and modifier tools
 - Existing shape keys for mirror, reset, and active-key repair tools
 
@@ -91,7 +95,7 @@ share Blender workflows that other artists can use in real work.
 
 ### Public release snapshot — 16 September 2026
 
-- Current public release: **1.14.3**
+- Public release at the snapshot date: **1.14.3**
 - **544 cumulative downloads** on [Blender Extensions](https://extensions.blender.org/add-ons/shape-key-helper/)
 - **3 public releases** on [GitHub](https://github.com/qw424886884/shape-key-helper/releases)
 
