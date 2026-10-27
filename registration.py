@@ -8,6 +8,7 @@ from .constants import MIRROR_MODE_ITEMS
 from .i18n import TRANSLATIONS
 from .operators import (
     OBJECT_OT_shape_key_mirror_active,
+    OBJECT_OT_shape_key_mirror_batch_keys,
     OBJECT_OT_shape_key_mirror_adapt_default_vrm_expressions,
     OBJECT_OT_shape_key_mirror_add_arkit_keys,
     OBJECT_OT_shape_key_mirror_apply_modifier_keep_shape_keys,
@@ -25,6 +26,7 @@ from .ui import DATA_PT_shape_key_mirror_master
 
 CLASSES = (
     OBJECT_OT_shape_key_mirror_active,
+    OBJECT_OT_shape_key_mirror_batch_keys,
     OBJECT_OT_shape_key_mirror_selected_meshes,
     OBJECT_OT_shape_key_mirror_reset_active,
     OBJECT_OT_shape_key_mirror_repair_mesh_symmetry,
@@ -86,13 +88,13 @@ def register():
         default="",
     )
     bpy.types.Scene.shape_key_mirror_show_mirror_tools = BoolProperty(
-        name="Mirror Shape Keys",
-        description="Show shape key mirror controls.",
+        name="Shape Key Operations",
+        description="Show shape key mirror, reset, and symmetry repair controls.",
         default=True,
     )
     bpy.types.Scene.shape_key_mirror_show_utility_tools = BoolProperty(
-        name="Utility Tools",
-        description="Show utility tools for symmetry repair, reset, and modifier application.",
+        name="Other Tools",
+        description="Show modifier application tools.",
         default=True,
     )
     bpy.types.Scene.shape_key_mirror_show_base_settings = BoolProperty(

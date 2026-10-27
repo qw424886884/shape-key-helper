@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import EnumProperty, FloatProperty
+from bpy.props import BoolProperty, EnumProperty, FloatProperty
 
 from .arkit_tools import (
     add_missing_arkit_shape_keys,
@@ -19,6 +19,8 @@ from .shape_key_core import (
     _open_base_shape_settings_on_error,
     _shape_key_blocks,
     analyze_shape_key_mirror,
+    batch_mirror_shape_keys,
+    plan_batch_shape_keys,
     infer_opposite_shape_key_name,
     mirror_shape_key_to_target,
     repair_active_shape_key_self_symmetry,
@@ -120,11 +122,55 @@ class OBJECT_OT_shape_key_mirror_active(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class OBJECT_OT_shape_key_mirror_batch_keys(bpy.types.Operator):
+    """Mirror all keys from one named side on the active mesh."""
+    bl_idname = "shape_key_mirror.batch_keys"
+    bl_label = "Batch Mirror Shape Keys"
+    bl_description = "Mirror same-side shape keys on the active mesh and create missing opposite keys. Existing targets are preserved unless overwrite is enabled."
+    bl_options = {"REGISTER", "UNDO"}
+    tolerance: FloatProperty(name="Vertex Match Tolerance (%)", default=0.5, min=0.0, max=5.0)
+    overwrite_existing: BoolProperty(name="Overwrite Existing Opposite Keys", default=False)
+
+    def source_name(self, context):
+        if getattr(context.scene, "shape_key_mirror_mode", "AUTO") == "MANUAL":
+            name = context.scene.shape_key_mirror_source.strip()
+            if name:
+                return name
+        return _active_source_name(context)
+
+    def invoke(self, context, event):
+        try:
+            plan_batch_shape_keys(context.object, self.source_name(context), _scene_base_shape_key_name(context))
+        except ValueError as exc:
+            self.report({"ERROR"}, str(exc))
+            return {"CANCELLED"}
+        return context.window_manager.invoke_props_dialog(self, width=440)
+
+    def draw(self, context):
+        plan = plan_batch_shape_keys(context.object, self.source_name(context), _scene_base_shape_key_name(context))
+        self.layout.label(text=_tr("Right to Left") if plan["side"] == "RIGHT" else _tr("Left to Right"))
+        self.layout.label(text=_tr("Current mesh: {count} source keys", count=len(plan["pairs"])))
+        self.layout.label(text=_tr("Existing opposite keys: {count}", count=len(plan["existing"])))
+        self.layout.prop(self, "overwrite_existing")
+
+    def execute(self, context):
+        try:
+            result = batch_mirror_shape_keys(context.object, self.source_name(context), self.tolerance,
+                                            _scene_base_shape_key_name(context), self.overwrite_existing)
+        except ValueError as exc:
+            _open_base_shape_settings_on_error(context, exc)
+            self.report({"ERROR"}, str(exc))
+            return {"CANCELLED"}
+        self.report({"INFO"}, _tr("Mirrored {count} shape keys; created {created}; skipped {skipped}.",
+                    count=len(result["mirrored"]), created=len(result["created"]), skipped=len(result["skipped"])))
+        return {"FINISHED"}
+
+
 class OBJECT_OT_shape_key_mirror_selected_meshes(bpy.types.Operator):
     """Mirror the resolved source key name into the target key on every selected mesh."""
 
     bl_idname = "shape_key_mirror.selected_meshes"
-    bl_label = "Batch Mirror Selected Meshes"
+    bl_label = "Mirror Pair Across Selected Meshes"
     bl_description = "Apply the current source -> target direction to selected mesh objects. Each mesh must contain matching source and target shape keys."
     bl_options = {"REGISTER", "UNDO"}
 

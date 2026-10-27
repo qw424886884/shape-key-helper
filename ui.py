@@ -38,14 +38,48 @@ class DATA_PT_shape_key_mirror_master(bpy.types.Panel):
         shape_keys = obj.data.shape_keys
         has_shape_keys = shape_keys is not None and len(shape_keys.key_blocks) > 0
 
+        layout.label(text=_ui_label("Model Preparation"), icon="MESH_DATA")
         layout.prop(scene, "shape_key_mirror_tolerance")
+        op = layout.operator(
+            "shape_key_mirror.repair_mesh_symmetry",
+            text=_ui_label("Repair Model Symmetry"),
+            icon="MOD_MIRROR",
+        )
+        op.tolerance = scene.shape_key_mirror_tolerance
+
+        if has_shape_keys:
+            base_row = layout.row(align=True)
+            base_row.prop(
+                scene,
+                "shape_key_mirror_show_base_settings",
+                text=_tr("Base Shape Settings"),
+                icon="TRIA_DOWN" if scene.shape_key_mirror_show_base_settings else "TRIA_RIGHT",
+                emboss=False,
+            )
+            if scene.shape_key_mirror_show_base_settings:
+                base_col = layout.column(align=True)
+                base_col.prop_search(
+                    scene,
+                    "shape_key_mirror_base",
+                    shape_keys,
+                    "key_blocks",
+                    text=_tr("Base Shape"),
+                )
+                if scene.shape_key_mirror_base:
+                    base_col.label(text=_tr("Base: {name}", name=scene.shape_key_mirror_base))
+                else:
+                    auto_base = _basis_shape_key(_shape_key_blocks(obj))
+                    if auto_base is not None:
+                        base_col.label(text=_tr("Base: Auto ({name})", name=auto_base.name))
+
+        layout.separator()
 
         mirror_col = layout.column(align=True)
         row = mirror_col.row()
         row.prop(
             scene,
             "shape_key_mirror_show_mirror_tools",
-            text=_ui_label("Mirror Shape Keys"),
+            text=_ui_label("Shape Key Operations"),
             icon="TRIA_DOWN" if scene.shape_key_mirror_show_mirror_tools else "TRIA_RIGHT",
             emboss=False,
         )
@@ -90,58 +124,17 @@ class DATA_PT_shape_key_mirror_master(bpy.types.Panel):
                 op.tolerance = scene.shape_key_mirror_tolerance
 
                 op = row.operator(
-                    "shape_key_mirror.selected_meshes",
+                    "shape_key_mirror.batch_keys",
                     text=_ui_label("Batch Mirror"),
                     icon="MOD_MIRROR",
                 )
                 op.tolerance = scene.shape_key_mirror_tolerance
 
-                base_row = mirror_col.row(align=True)
-                base_row.prop(
-                    scene,
-                    "shape_key_mirror_show_base_settings",
-                    text=_tr("Base Shape Settings"),
-                    icon="TRIA_DOWN" if scene.shape_key_mirror_show_base_settings else "TRIA_RIGHT",
-                    emboss=False,
-                )
-                if scene.shape_key_mirror_show_base_settings:
-                    base_col = mirror_col.column(align=True)
-                    base_col.prop_search(
-                        scene,
-                        "shape_key_mirror_base",
-                        shape_keys,
-                        "key_blocks",
-                        text=_tr("Base Shape"),
-                    )
-                    if scene.shape_key_mirror_base:
-                        base_col.label(text=_tr("Base: {name}", name=scene.shape_key_mirror_base))
-                    else:
-                        auto_base = _basis_shape_key(_shape_key_blocks(obj))
-                        if auto_base is not None:
-                            base_col.label(text=_tr("Base: Auto ({name})", name=auto_base.name))
             else:
                 mirror_col.label(text=_tr("No shape keys found on the selected object."), icon="INFO")
 
-        layout.separator()
-        utility_col = layout.column(align=True)
-        row = utility_col.row()
-        row.prop(
-            scene,
-            "shape_key_mirror_show_utility_tools",
-            text=_ui_label("Utility Tools"),
-            icon="TRIA_DOWN" if scene.shape_key_mirror_show_utility_tools else "TRIA_RIGHT",
-            emboss=False,
-        )
-        if scene.shape_key_mirror_show_utility_tools:
-            op = utility_col.operator(
-                "shape_key_mirror.repair_mesh_symmetry",
-                text=_ui_label("Repair Model Symmetry"),
-                icon="MOD_MIRROR",
-            )
-            op.tolerance = scene.shape_key_mirror_tolerance
-
             if has_shape_keys:
-                row = utility_col.row(align=True)
+                row = mirror_col.row(align=True)
                 row.operator(
                     "shape_key_mirror.reset_active",
                     text=_ui_label("Reset Active Shape Key"),
@@ -154,6 +147,17 @@ class DATA_PT_shape_key_mirror_master(bpy.types.Panel):
                 )
                 op.tolerance = scene.shape_key_mirror_tolerance
 
+        layout.separator()
+        utility_col = layout.column(align=True)
+        row = utility_col.row()
+        row.prop(
+            scene,
+            "shape_key_mirror_show_utility_tools",
+            text=_ui_label("Other Tools"),
+            icon="TRIA_DOWN" if scene.shape_key_mirror_show_utility_tools else "TRIA_RIGHT",
+            emboss=False,
+        )
+        if scene.shape_key_mirror_show_utility_tools:
             if len(obj.modifiers) > 0:
                 utility_col.prop_search(
                     scene,

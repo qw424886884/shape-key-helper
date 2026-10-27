@@ -21,7 +21,7 @@ with English source labels and Simplified Chinese translations.
 
 - Mirror the active left/right shape key automatically
 - Choose source and target shape keys manually
-- Batch mirror matching keys across selected mesh objects
+- Batch mirror same-side shape keys on the active mesh, creating missing counterparts
 - Repair a visually symmetric mesh without deleting half of it or changing UVs
 - Repair only the active shape key or reset it to the base shape
 - Apply one modifier while preserving relative or absolute shape keys
@@ -33,13 +33,14 @@ with English source labels and Simplified Chinese translations.
 
 ## Requirements
 
-Version 1.14.4: applying a modifier now preserves shape-key selection and edit
-locks where supported. The reported mouse-drag issue is not yet reproduced
-and is not claimed as fixed.
+Version 1.14.6: batch mirroring works on multiple shape keys within the active
+mesh. Existing targets are skipped by default; overwrite is optional. The reported
+mouse-drag issue is not yet reproduced and is not claimed as fixed.
 
 - Blender 4.2 LTS or newer
-- Tested with Blender 4.2.9, 4.3.2, 4.4.3, 4.5.12 LTS, 5.0.1, 5.1.2,
-  and 5.2.2 LTS
+- Version 1.14.6 batch workflow verified in Blender 5.2.3 LTS
+- Version 1.14.4 previously tested in Blender 4.2.9, 4.3.2, 4.4.3,
+  4.5.12 LTS, 5.0.1, 5.1.2, and 5.2.2 LTS
 - A mesh object for symmetry and modifier tools
 - Existing shape keys for mirror, reset, and active-key repair tools
 
@@ -59,9 +60,12 @@ To install a downloaded release ZIP manually:
 
 1. Select a mesh and open Object Data Properties > Shape Keys.
 2. Expand Shape Key Helper below Blender's shape key panel.
-3. Use Mirror Shape Keys for automatic, manual, or batch mirroring.
-4. Use Utility Tools for mesh repair, active-key repair, reset, or modifier
-   application.
+3. Use Model Preparation for small symmetry corrections on an intentionally
+   symmetric model, then open Shape Key Operations for mirroring.
+4. For batch mirroring, select a clearly named left or right source key, confirm
+   the direction, and mirror all same-side keys on this mesh. Missing targets are
+   created; existing targets are skipped unless Overwrite Existing is enabled.
+5. Use Utility Tools for active-key repair, reset, or modifier application.
 
 ## Modifier Safety
 

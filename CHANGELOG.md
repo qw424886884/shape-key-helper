@@ -2,6 +2,21 @@
 
 All notable changes to Shape Key Helper are documented here.
 
+## [1.14.6] - 2026-10-27
+
+- Batch Mirror now processes multiple same-side shape keys on the active mesh,
+  rather than matching keys across selected objects.
+- Creates missing counterparts and skips existing targets by default; an explicit
+  Overwrite Existing option replaces existing targets. Source keys and values stay
+  unchanged, and other selected objects are not processed.
+- Validates vertex pairing before writing and rolls back the current batch on an
+  execution failure.
+- Reorders the panel around mesh preparation, shape-key mirroring, and utilities.
+  A base-shape reference is optional; leaving it empty uses the first shape key.
+- Verified eight native Blender 5.2.3 LTS batch cases, sixteen existing Python
+  tests, and official extension build/package validation. Other Blender versions
+  were not rerun for this release.
+
 ## [1.14.4] - 2026-10-04
 
 - Fixed loss of shape-key multi-selection and edit-lock states when using

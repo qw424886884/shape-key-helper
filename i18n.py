@@ -85,6 +85,11 @@ TRANSLATIONS = {
         ("*", "Repair the active shape key against itself. If only one side was edited, the edited side is mirrored to the untouched side."): "只修复当前形态键自身对称；如果只改了一侧，会把已改侧镜像到未改侧。",
         ("*", "Mirror Shape Keys"): "镜像形态键",
         ("*", "Utility Tools"): "实用功能",
+        ("*", "Model Preparation"): "模型准备",
+        ("*", "Shape Key Operations"): "形态键操作",
+        ("*", "Other Tools"): "其他工具",
+        ("*", "Show shape key mirror, reset, and symmetry repair controls."): "显示形态键镜像、恢复和自身对称修复工具。",
+        ("*", "Show modifier application tools."): "显示保留形态键应用修改器工具。",
         ("*", "Selected Modifier"): "选择修改器",
         ("*", "Apply Modifier Keep Shape Keys"): "应用修改器并保留形态键",
         ("*", "Apply the selected modifier while rebuilding all existing shape keys. Other modifiers are temporarily disabled to avoid double application."): "应用选中的修改器，并重建保留所有已有形态键。其他修改器会临时关闭，避免重复叠加。",
@@ -126,9 +131,26 @@ VISIBLE_LABELS_ZH = {
     "Repair Active Key Symmetry": "修复当前形态对称",
     "Mirror Shape Keys": "镜像形态键",
     "Utility Tools": "实用功能",
+    "Model Preparation": "模型准备",
+    "Shape Key Operations": "形态键操作",
+    "Other Tools": "其他工具",
     "Apply Modifier Keep Shape Keys": "应用修改器保留形态键",
     "No modifiers found on the selected object.": "当前对象没有修改器。",
 }
+
+
+TRANSLATIONS["zh_HANS"].update({
+    ("*", "Batch Mirror Shape Keys"): "批量镜像形态键",
+    ("*", "Overwrite Existing Opposite Keys"): "覆盖已有对侧形态键",
+    ("*", "Right to Left"): "右侧 → 左侧",
+    ("*", "Left to Right"): "左侧 → 右侧",
+    ("*", "Current mesh: {count} source keys"): "当前模型：{count} 个源形态键",
+    ("*", "Existing opposite keys: {count}"): "已有对侧形态键：{count} 个",
+    ("*", "Choose a source key with one clear left/right prefix or suffix."): "请先选中一个有明确左右前缀或后缀的源形态键。",
+    ("*", "Batch cancelled before writing: {count} unmatched vertices."): "批量镜像已取消，未写入数据：{count} 个顶点未匹配，请先修复模型对称或调整容差。",
+    ("*", "Mirrored {count} shape keys; created {created}; skipped {skipped}."): "已镜像 {count} 个形态键；新建 {created} 个；跳过 {skipped} 个。",
+    ("*", "Mirror same-side shape keys on the active mesh and create missing opposite keys. Existing targets are preserved unless overwrite is enabled."): "在当前模型中，批量镜像与源键同侧的形态键，并创建缺少的对侧键。已有目标默认保留，勾选覆盖后才改写。",
+})
 
 
 def _tr(message, **kwargs):

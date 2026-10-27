@@ -27,6 +27,86 @@ def infer_opposite_shape_key_name(shape_key_name):
     return None
 
 
+def batch_shape_key_side_pair(name):
+    """Resolve one unambiguous boundary marker, avoiding words like Brightness."""
+    matches = set()
+    for left, right in NAME_PAIRS:
+        for side, token, opposite in (("LEFT", left, right), ("RIGHT", right, left)):
+            if name.startswith(token):
+                matches.add((side, opposite + name[len(token):]))
+            if name.endswith(token):
+                matches.add((side, name[:-len(token)] + opposite))
+    if matches:
+        return next(iter(matches)) if len(matches) == 1 else None
+    if len(name) > 2 and name[0] in {"L", "R"} and name[1].isupper():
+        return ("LEFT" if name[0] == "L" else "RIGHT", ("R" if name[0] == "L" else "L") + name[1:])
+    if len(name) > 2 and name[-1] in {"L", "R"} and (name[-2].islower() or name[-2].isdigit()):
+        return ("LEFT" if name[-1] == "L" else "RIGHT", name[:-1] + ("R" if name[-1] == "L" else "L"))
+    return None
+
+
+def plan_batch_shape_keys(obj, source_side_name, base_shape_key_name=None):
+    keys = _shape_key_blocks(obj)
+    basis = _basis_shape_key(keys, base_shape_key_name)
+    if basis is None:
+        raise _missing_basis_error()
+    if source_side_name not in keys or _is_basis_shape_key_name(keys, source_side_name, base_shape_key_name):
+        raise _base_key_source_target_error(base_shape_key_name)
+    marker = batch_shape_key_side_pair(source_side_name)
+    if marker is None:
+        raise ValueError(_tr("Choose a source key with one clear left/right prefix or suffix."))
+    pairs = []
+    for key in list(keys):
+        if _is_basis_shape_key_name(keys, key.name, base_shape_key_name):
+            continue
+        pair = batch_shape_key_side_pair(key.name)
+        if pair is not None and pair[0] == marker[0]:
+            if _is_basis_shape_key_name(keys, pair[1], base_shape_key_name):
+                raise _base_key_source_target_error(base_shape_key_name)
+            pairs.append((key.name, pair[1]))
+    return {"side": marker[0], "pairs": pairs, "existing": [b for a, b in pairs if b in keys]}
+
+
+def batch_mirror_shape_keys(obj, source_side_name, tolerance_percent=0.5,
+                            base_shape_key_name=None, overwrite_existing=False):
+    """Mirror a snapshot of same-side keys on ONE mesh; create missing targets."""
+    plan = plan_batch_shape_keys(obj, source_side_name, base_shape_key_name)
+    keys = _shape_key_blocks(obj)
+    basis = _basis_shape_key(keys, base_shape_key_name)
+    pairing = _mirror_pairing_for_basis(basis, tolerance_percent)
+    if pairing["unmatched"]:
+        raise ValueError(_tr("Batch cancelled before writing: {count} unmatched vertices.", count=pairing["unmatched"]))
+    ready = [(a, b) for a, b in plan["pairs"] if overwrite_existing or b not in keys]
+    backups = {b: [p.co.copy() for p in keys[b].data] for a, b in ready if b in keys}
+    active_index = obj.active_shape_key_index
+    created = []
+    try:
+        for a, b in ready:
+            if b not in keys:
+                target = obj.shape_key_add(name=b, from_mix=False)
+                created.append(target.name)
+                if target.name != b:
+                    raise ValueError("Opposite shape key name is already in use: " + b)
+                target.relative_key = basis
+                target.slider_min = keys[a].slider_min
+                target.slider_max = keys[a].slider_max
+                target.interpolation = keys[a].interpolation
+                target.value = 0.0
+            mirror_shape_key_to_target(obj, a, b, tolerance_percent, base_shape_key_name)
+    except Exception:
+        for name in reversed(created):
+            obj.shape_key_remove(keys[name])
+        for name, coords in backups.items():
+            for point, co in zip(keys[name].data, coords):
+                point.co = co
+        obj.data.update()
+        raise
+    finally:
+        obj.active_shape_key_index = active_index
+    return {**plan, "mirrored": ready, "created": created,
+            "overwritten": list(backups), "skipped": [b for a, b in plan["pairs"] if (a, b) not in ready]}
+
+
 def _shape_key_blocks(obj):
     if obj is None or obj.type != "MESH" or obj.data.shape_keys is None:
         return None
